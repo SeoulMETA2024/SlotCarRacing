@@ -1,0 +1,4 @@
+가상환경 만들기
+python -m venv 이름
+
+위에 검색란에'>'치고 python interpreter- ~~path - find - venv - script ----python

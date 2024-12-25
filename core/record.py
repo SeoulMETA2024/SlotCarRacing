@@ -18,3 +18,14 @@ class Record:
         value = value[0] + value[1]*60
         return value
 
+    def add_record(self,data):
+        result = data.split('_')
+        if self.isExceptional(result[1]):
+            self.newRecord(result)
+            self.sortRanking()
+            self.top = self.ranking[0]['result']
+            return True
+        else:
+            return False
+        
+        
