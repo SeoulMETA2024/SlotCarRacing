@@ -2,7 +2,7 @@ from core.printRanking import print_data
 from core.record import Record
 import serial
 import time
-
+name = input("닉네임을 입력하세요: ")
 record = Record()
 
 # 시리얼 포트 연결
@@ -18,17 +18,17 @@ time.sleep(2)
 while True:
     if ser.in_waiting > 0:  # 데이터가 있으면
         data = ser.readline().decode().strip()  # 데이터 읽기
-        print(data)  # 받은 데이터 출력
+        inform = [name, data]
+        print(inform)
 
-        
-        if record.add_record(records):
-            print("새로운 기록이 추가되었습니다.")
-        else:
-            print("새로운 기록이 추가되지 않았습니다.")
-        
+       
+        record.newRecord(inform)
         records = record.ranking
+        print("새로운 기록이 추가되었습니다.")
+        
+        
         for temp_data in records:
-            print_data(temp_data)
+            print_data(records.index(temp_data)+1,temp_data['name'],temp_data['result'])
 
 
 
