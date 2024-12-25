@@ -28,7 +28,7 @@ void loop() {
 
 
   
-  if (/*센서작동할때*/)
+  if (/*센서작동할때*/) //이거 만들기!
   {
         preTime = nowTime;
         unsigned long nowTime = millis();
