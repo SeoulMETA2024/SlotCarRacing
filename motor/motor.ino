@@ -43,8 +43,6 @@ void setup() {
     digitalWrite(control1, LOW);
     digitalWrite(control2, LOW);
     analogWrite(speedpin, 0);
-    
-    Serial.begin(9600);
 }
 
 void loop() {
