@@ -49,7 +49,7 @@ void loop() {
             //Serial.println(speed);
         }
     } else {
-        if(buttonState == HIGH){
+        
                 // 버튼이 눌리지 않았을 때 모터 속도 서서히 감소
                 if(speed > 0) {
                     speed = speed - 1;  // 감소량 조절 가능
@@ -61,6 +61,6 @@ void loop() {
                     digitalWrite(control2, LOW);
                     analogWrite(speedpin, 0);
                 }
-        }
+        
     }
 }
