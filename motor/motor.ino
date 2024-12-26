@@ -4,8 +4,8 @@
 
 /*모터제어*/
 #define control1 9
-#define control2 10 
-#define speedpin 7
+#define control2 8 
+#define speedpin 10
 #define button 8
 
 /*버튼*/
@@ -13,8 +13,8 @@ int buttonState = 0;
 
 
 /*초음파*/
-int echo = 8;//핀 지정하기
-int trig = 11;
+int echo = 6;//핀 지정하기
+int trig = 7;
 unsigned long preTime = 0;
 unsigned long nowTime = 0;
 float cycletime;
@@ -64,16 +64,16 @@ void loop() {
   
     nowdistance = ((340 * cycletime) / 10000) / 2;  
 
-    //Serial.print("Distance:");//test
-    //Serial.print(nowdistance);
-   // Serial.println("cm"); 
+    Serial.print("Distance:");//test
+    Serial.print(nowdistance);
+    Serial.println("cm"); 
 
 
     //Serial.print('buttonState:');
     //Serial.println(buttonState);
 
-    Serial.print('speed:');
-    Serial.println(speed);
+   //Serial.print('speed:');
+    //Serial.println(speed);
     
     
       
