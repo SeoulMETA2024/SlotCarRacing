@@ -1,3 +1,5 @@
+
+#include <math.h>
 int echo = 8;
 int trig = 11;
 unsigned long preTime = 0;
@@ -33,11 +35,14 @@ void loop() {
 
   if(predistance <carandwalldistance && nowdistance >carandwalldistance ){
     
+    
           preTime = nowTime;
           unsigned long nowTime = millis();
-          int Time = nowTime - preTime ;
+
+          float Time = floor(nowTime) - floor(preTime) ;
           char a[20];
           itoa(Time,a,10);
+          Serial.println(a);
           //char b[] = "시간 측정 시작";
           //printf("%s\n",b);
       
