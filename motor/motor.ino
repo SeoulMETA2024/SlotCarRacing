@@ -1,20 +1,23 @@
-#include <Arduino.h>
+
 #include <stdio.h>
 #include <math.h>
-#define control1 7
-#define control2 8 
-#define speedpin 6
-#define button 9
-int echo = ?;//핀 지정하기
+
+/*모터제어*/
+#define control1 9
+#define control2 10 
+#define speedpin 7
+#define button 8
+
+/*초음파*/
+int echo = 8;//핀 지정하기
 int trig = 11;
 unsigned long preTime = 0;
 unsigned long nowTime = 0;
 float cycletime;
 float nowdistance;
-float predistance;
-float carandwalldistance;//차와 벽 사이의 길이 보단 길고, 센서와 벽사이의 길이보단 짧아야함!
+const float CAR_AND_WALL_DISTANCE = 10;//차와 벽 사이의 길이 보단 길고, 센서와 벽사이의 길이보단 짧아야함!, 상수조정하기!
 
-
+/*모터제어*/
 const int THRESHOLD = 5000; // 임계값 0.5초
 int speed = 200;
 float oldTime = 0.0f;
@@ -26,7 +29,7 @@ enum State {
     StateRun,
     StateArrive,
     StateReset,
-};
+}
 
 State carState = StateWait;
 
@@ -52,31 +55,18 @@ void loop() {
     digitalWrite(trig, LOW);
   
     cycletime = pulseIn(echo, HIGH);
-    predistance = nowdistance; 
+ 
   
     nowdistance = ((340 * cycletime) / 10000) / 2;  
 
   //Serial.print("Distance:");
   //Serial.println(distance);
   //Serial.print("cm"); 
-    delay(500);
 
-
-    if(predistance <carandwalldistance && nowdistance >carandwalldistance ){
     
     
-          preTime = nowTime;
-          unsigned long nowTime = millis();
-
-          float Time = floor(nowTime) - floor(preTime) ;
-          char a[20];
-          itoa(Time,a,10);
-          Serial.println(a);
-          //char b[] = "시간 측정 시작";
-          //printf("%s\n",b);
+    
       
-
-  }
 
 
 
@@ -96,8 +86,14 @@ void loop() {
         }
         break;
 
+
+
+
+
     case StateRun:
-    
+
+        
+        preTime = millis();
         int buttonState = digitalRead(button);
         if (buttonState == HIGH){
             oldTime = currentTime;
@@ -133,14 +129,35 @@ void loop() {
             analogWrite(speedpin, speed);
         }
 
-        if(predistance >carandwalldistance && nowdistance < carandwalldistance ){
+        if(nowdistance < CAR_AND_WALL_DISTANCE ){
             carState = StateArrive; }
         break;
+
+
+
+
+
+
 
     case StateArrive:
     //기록재는 함수 종료,이름 input,기록 띄우기
         /*차 멈추기*/
-        if(predistance >carandwalldistance && nowdistance < carandwalldistance ){
+        
+
+            
+            unsigned long nowTime = millis();
+
+            float Time = floor(nowTime) - floor(preTime) ;
+            char a[20];
+            itoa(Time,a,10);
+            Serial.println(a);
+            //char b[] = "시간 측정 시작";
+            //printf("%s\n",b);
+      
+
+  
+
+        if(nowdistance < carandwCAR_AND_WALL_DISTANCEalldistance ){
             digitalWrite(control1, LOW);
             digitalWrite(control2, LOW);
             analogWrite(speedpin, 0);
@@ -149,8 +166,14 @@ void loop() {
         delay(1000);
         break;
 
+
+
+
+
+
+
     case StateReset:
-        if(nowdistance < carandwalldistance){
+        if(nowdistance < CAR_AND_WALL_DISTANCE){
             digitalWrite(control1, LOW);
             digitalWrite(control2, HIGH);
             analogWrite(speedpin, 5);
