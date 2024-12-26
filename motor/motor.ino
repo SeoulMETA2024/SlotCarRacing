@@ -6,7 +6,7 @@
 #define speedpin 6
 #define button 9
 
-const int THRESHOLD = 500; // 임계값 5초
+const int THRESHOLD = 500; // 임계값 0.5초
 int speed = 200;
 float oldTime = 0.0f;
 float currentTime = 0.0f;
@@ -45,13 +45,22 @@ void loop() {
             digitalWrite(control2, LOW);
             analogWrite(speedpin, speed);
             
-            Serial.print("Speed: ");
-            Serial.println(speed);
+            //Serial.print("Speed: ");
+            //Serial.println(speed);
         }
     } else {
-        // 버튼이 눌리지 않았을 때 모터 정지
-        digitalWrite(control1, LOW);
-        digitalWrite(control2, LOW);
-        analogWrite(speedpin, 0);
+        if(buttonState == HIGH){
+                // 버튼이 눌리지 않았을 때 모터 속도 서서히 감소
+                if(speed > 0) {
+                    speed = speed - 1;  // 감소량 조절 가능
+                    digitalWrite(control1, HIGH);
+                    digitalWrite(control2, LOW);
+                    analogWrite(speedpin, speed);
+                } else {
+                    digitalWrite(control1, LOW);
+                    digitalWrite(control2, LOW);
+                    analogWrite(speedpin, 0);
+                }
+        }
     }
 }
